@@ -1,0 +1,18 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment and secrets
+.env
+.env.local
+*.log
+
+# Dependencies
+node_modules/
+
+# IDE / Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Кринж PRO">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Кринж & Co — Кабинет специалиста</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="app-container admin-app-container" id="admin-app">
+
+    <!-- Mobile App Header -->
+    <header class="admin-mobile-header" id="mobile-header">
+      <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Меню">
+        <span>☰</span>
+      </button>
+      <div class="admin-header-brand" onclick="adminNav('dashboard')">
+        <img src="assets/logo.svg" alt="Logo" width="28" height="28">
+        <div>
+          <div class="admin-brand-title">Кринж & Co <span class="admin-role-badge">PRO</span></div>
+          <div class="admin-brand-subtitle">Кабинет специалиста</div>
+        </div>
+      </div>
+      <div class="admin-header-actions">
+        <button class="icon-btn" onclick="adminNav('notifications')" aria-label="Уведомления">
+          🔔<span class="badge" id="admin-notif-badge" style="display:none">0</span>
+        </button>
+        <a href="index.html" class="client-switch-pill" title="В приложение клиента">
+          👤 Клиент
+        </a>
+      </div>
+    </header>
+
+    <!-- Sidebar / Mobile Drawer -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="assets/logo.svg" alt="Logo" width="40" height="40">
+        <div style="flex:1">
+          <div class="sidebar-title">Кринж & Co <span class="admin-role-badge">PRO</span></div>
+          <div class="sidebar-subtitle">Кабинет специалиста</div>
+        </div>
+        <button class="drawer-close-btn" onclick="toggleSidebar()" aria-label="Закрыть">✕</button>
+      </div>
+
+      <div class="sidebar-user-card">
+        <div class="user-avatar-small">👩‍⚕️</div>
+        <div>
+          <div class="font-bold text-sm">Елена Соколова</div>
+          <div class="text-xs text-green">● Онлайн в системе</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-link active" onclick="adminNav('dashboard')" data-nav="dashboard"><span class="nav-icon">📊</span>Дашборд</a>
+        <a class="nav-link" onclick="adminNav('calendar')" data-nav="calendar"><span class="nav-icon">📅</span>Календарь</a>
+        <a class="nav-link" onclick="adminNav('bookings')" data-nav="bookings"><span class="nav-icon">📋</span>Записи</a>
+        <a class="nav-link" onclick="adminNav('clients')" data-nav="clients"><span class="nav-icon">👥</span>Клиенты</a>
+        <a class="nav-link" onclick="adminNav('payments')" data-nav="payments"><span class="nav-icon">💰</span>Оплаты</a>
+        <a class="nav-link" onclick="adminNav('courses')" data-nav="courses"><span class="nav-icon">📚</span>Курсы</a>
+        <a class="nav-link" onclick="adminNav('notifications')" data-nav="notifications"><span class="nav-icon">📢</span>Уведомления</a>
+        <a class="nav-link" onclick="adminNav('streams')" data-nav="streams"><span class="nav-icon">📺</span>Трансляции</a>
+        <a class="nav-link" onclick="adminNav('admin-chat')" data-nav="admin-chat"><span class="nav-icon">💬</span>Чат поддержки</a>
+        <a class="nav-link" onclick="adminNav('statistics')" data-nav="statistics"><span class="nav-icon">📈</span>Статистика</a>
+        <a class="nav-link" onclick="adminNav('settings')" data-nav="settings"><span class="nav-icon">⚙️</span>Настройки</a>
+      </nav>
+      <div style="padding:var(--space-4);border-top:1px solid var(--border)">
+        <a href="index.html" class="btn btn-secondary btn-sm btn-block">👤 Перейти в приложение клиента</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main" id="admin-main">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="screen active" id="admin-dashboard">
+        <h2 class="mb-6">📊 Дашборд</h2>
+        <div class="grid grid-4 mb-6" id="dash-stats"></div>
+        <div class="grid grid-2 mb-6">
+          <div class="card"><h4 class="mb-4">📅 Расписание на сегодня</h4><div id="dash-today"></div></div>
+          <div class="card"><h4 class="mb-4">🕐 Последние записи</h4><div id="dash-recent"></div></div>
+        </div>
+        <div class="flex gap-3 flex-wrap">
+          <button class="btn btn-primary btn-sm" onclick="adminNav('courses')">➕ Новый курс</button>
+          <button class="btn btn-secondary btn-sm" onclick="adminNav('notifications')">📢 Уведомление</button>
+          <button class="btn btn-secondary btn-sm" onclick="adminNav('statistics')">📈 Статистика</button>
+        </div>
+      </div>
+
+      <!-- ===== CALENDAR ===== -->
+      <div class="screen" id="admin-calendar">
+        <h2 class="mb-4">📅 Календарь специалиста</h2>
+        <div class="flex gap-3 mb-4 flex-wrap">
+          <select class="form-select" id="cal-specialist-filter" onchange="renderAdminCalendar()" style="max-width:250px">
+            <option value="">Все специалисты</option>
+          </select>
+          <div class="flex gap-2">
+            <button class="btn btn-sm" id="cal-view-month" onclick="setCalView('month')">Месяц</button>
+            <button class="btn btn-sm" id="cal-view-week" onclick="setCalView('week')">Неделя</button>
+            <button class="btn btn-sm" id="cal-view-day" onclick="setCalView('day')">День</button>
+          </div>
+        </div>
+        <div class="calendar-wrapper mb-4" id="admin-cal-grid"></div>
+        <div class="card" id="admin-cal-day-detail" style="display:none">
+          <h4 class="mb-3" id="admin-cal-day-title"></h4>
+          <div id="admin-cal-day-bookings"></div>
+          <button class="btn btn-secondary btn-sm mt-3" onclick="blockTimeSlotPrompt()">🔒 Заблокировать время</button>
+        </div>
+      </div>
+
+      <!-- ===== CLIENTS ===== -->
+      <div class="screen" id="admin-clients">
+        <h2 class="mb-4">👥 Клиенты</h2>
+        <div class="flex gap-3 mb-4">
+          <input type="text" class="form-input" id="client-search" placeholder="🔍 Поиск по имени или телефону..." oninput="renderClients()" style="max-width:300px">
+        </div>
+        <div class="table-container"><table class="data-table mobile-card-table" id="clients-table"></table></div>
+      </div>
+
+      <!-- ===== BOOKINGS ===== -->
+      <div class="screen" id="admin-bookings">
+        <h2 class="mb-4">📋 Управление записями</h2>
+        <div class="filter-bar" id="bookings-filters">
+          <select class="filter-select" id="filter-status" onchange="renderBookings()">
+            <option value="">Все статусы</option>
+            <option value="pending">Ожидает</option>
+            <option value="confirmed">Подтверждена</option>
+            <option value="paid">Оплачена</option>
+            <option value="cancelled">Отменена</option>
+            <option value="completed">Завершена</option>
+          </select>
+          <select class="filter-select" id="filter-program" onchange="renderBookings()"></select>
+          <select class="filter-select" id="filter-specialist" onchange="renderBookings()"></select>
+          <button class="btn btn-sm btn-secondary" onclick="exportBookingsCSV()">📥 Экспорт CSV</button>
+        </div>
+        <div class="table-container"><table class="data-table mobile-card-table" id="bookings-table"></table></div>
+      </div>
+
+      <!-- ===== PAYMENTS ===== -->
+      <div class="screen" id="admin-payments">
+        <h2 class="mb-4">💰 Оплаты</h2>
+        <div class="grid grid-4 mb-6" id="payment-stats"></div>
+        <div class="filter-bar">
+          <select class="filter-select" id="pay-filter-status" onchange="renderPayments()">
+            <option value="">Все</option><option value="success">Успешные</option><option value="failed">Ошибка</option>
+          </select>
+          <select class="filter-select" id="pay-filter-method" onchange="renderPayments()">
+            <option value="">Все методы</option><option value="card">Карта</option><option value="sbp">СБП</option><option value="installment">Рассрочка</option>
+          </select>
+        </div>
+        <div class="table-container"><table class="data-table mobile-card-table" id="payments-table"></table></div>
+      </div>
+
+      <!-- ===== COURSES ===== -->
+      <div class="screen" id="admin-courses">
+        <h2 class="mb-4">📚 Управление курсами</h2>
+        <button class="btn btn-primary mb-4" onclick="showCourseForm()">➕ Создать новый курс</button>
+        <div id="courses-list"></div>
+        <!-- Course Form Modal -->
+        <div class="modal-overlay" id="course-modal">
+          <div class="modal" style="max-width:500px">
+            <div class="modal-header"><h3 id="course-form-title">Новый курс</h3><span class="modal-close" onclick="closeCourseForm()">✕</span></div>
+            <form id="course-form" onsubmit="saveCourse(event)">
+              <div class="form-group"><label class="form-label">Название *</label><input type="text" class="form-input" id="cf-name" required></div>
+              <div class="form-group"><label class="form-label">Описание *</label><textarea class="form-textarea" id="cf-desc" required></textarea></div>
+              <div class="form-group"><label class="form-label">Тип</label>
+                <select class="form-select" id="cf-type"><option value="online">Онлайн</option><option value="group">Выездной групповой</option><option value="vip">VIP индивидуальный</option></select>
+              </div>
+              <div class="flex gap-3">
+                <div class="form-group" style="flex:1"><label class="form-label">Цена (₽) *</label><input type="number" class="form-input" id="cf-price" required min="0"></div>
+                <div class="form-group" style="flex:1"><label class="form-label">Длительность</label><input type="text" class="form-input" id="cf-duration" placeholder="напр. 3 дня"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Модули</label>
+                <div id="cf-modules"></div>
+                <button type="button" class="btn btn-sm btn-secondary mt-2" onclick="addModuleField()">+ Добавить модуль</button>
+              </div>
+              <div class="form-group"><label class="form-label">Бейдж</label><input type="text" class="form-input" id="cf-badge" placeholder="напр. Новинка"></div>
+              <div class="checkbox-group mb-4"><input type="checkbox" id="cf-installment" checked><label for="cf-installment">Доступна рассрочка 0%</label></div>
+              <div class="checkbox-group mb-4"><input type="checkbox" id="cf-active" checked><label for="cf-active">Курс активен</label></div>
+              <input type="hidden" id="cf-id" value="">
+              <div class="flex gap-3"><button type="button" class="btn btn-secondary" onclick="closeCourseForm()">Отмена</button><button type="submit" class="btn btn-primary flex-1">Сохранить</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NOTIFICATIONS ===== -->
+      <div class="screen" id="admin-notifications">
+        <h2 class="mb-4">📢 Управление уведомлениями</h2>
+        <div class="card mb-4">
+          <h4 class="mb-4">Создать уведомление</h4>
+          <div class="form-group"><label class="form-label">Заголовок</label><input type="text" class="form-input" id="notif-title" placeholder="Заголовок уведомления"></div>
+          <div class="form-group"><label class="form-label">Текст</label><textarea class="form-textarea" id="notif-body" placeholder="Текст уведомления..."></textarea></div>
+          <div class="flex gap-3 mb-4">
+            <div class="form-group" style="flex:1"><label class="form-label">Тип</label>
+              <select class="form-select" id="notif-type"><option value="info">Информация</option><option value="promo">Акция</option><option value="reminder">Напоминание</option><option value="stream">Трансляция</option></select>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="sendAdminNotification()">📤 Отправить всем</button>
+        </div>
+        <h4 class="mb-3">История уведомлений</h4>
+        <div id="admin-notif-history"></div>
+      </div>
+
+      <!-- ===== STREAMS ===== -->
+      <div class="screen" id="admin-streams">
+        <h2 class="mb-4">📺 Управление трансляциями VK</h2>
+        <div class="card mb-4">
+          <h4 class="mb-4">Добавить трансляцию</h4>
+          <div class="form-group"><label class="form-label">Название</label><input type="text" class="form-input" id="stream-title" placeholder="Название трансляции"></div>
+          <div class="form-group"><label class="form-label">Ссылка VK</label><input type="url" class="form-input" id="stream-url" placeholder="https://vk.com/video..."></div>
+          <div class="form-group"><label class="form-label">Описание</label><textarea class="form-textarea" id="stream-desc" placeholder="Описание..."></textarea></div>
+          <div class="form-group"><label class="form-label">Дата и время</label><input type="datetime-local" class="form-input" id="stream-date"></div>
+          <div class="checkbox-group mb-2"><input type="checkbox" id="stream-push" checked><label for="stream-push">Отправить пуш-уведомление</label></div>
+          <div class="checkbox-group mb-4"><input type="checkbox" id="stream-cal" checked><label for="stream-cal">Добавить в календарь клиентов</label></div>
+          <button class="btn btn-primary" onclick="addStreamAdmin()">📺 Добавить трансляцию</button>
+        </div>
+        <h4 class="mb-3">История трансляций</h4>
+        <div id="admin-streams-list"></div>
+      </div>
+
+      <!-- ===== CHAT ===== -->
+      <div class="screen" id="admin-admin-chat">
+        <h2 class="mb-4">💬 Чат с клиентами</h2>
+        <div class="flex gap-4 admin-chat-flex" style="min-height:480px">
+          <div class="card admin-chat-threads" style="width:280px;overflow-y:auto;padding:0;flex-shrink:0" id="chat-threads-list"></div>
+          <div class="card admin-chat-box" style="flex:1;display:flex;flex-direction:column;padding:0">
+            <div class="chat-header" id="admin-chat-header"><span class="text-muted">Выберите диалог</span></div>
+            <div class="chat-messages" id="admin-chat-messages" style="flex:1"></div>
+            <div class="chat-input-area" id="admin-chat-input" style="display:none">
+              <input type="text" id="admin-chat-text" placeholder="Ответ клиенту..." onkeypress="if(event.key==='Enter')sendAdminChat()">
+              <button class="chat-send-btn" onclick="sendAdminChat()">➤</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== STATISTICS ===== -->
+      <div class="screen" id="admin-statistics">
+        <h2 class="mb-4">📈 Статистика</h2>
+        <div class="tabs mb-4">
+          <span class="tab active" onclick="setStatsPeriod('week',this)">Неделя</span>
+          <span class="tab" onclick="setStatsPeriod('month',this)">Месяц</span>
+          <span class="tab" onclick="setStatsPeriod('year',this)">Год</span>
+          <span class="tab" onclick="setStatsPeriod('all',this)">Всё время</span>
+        </div>
+        <div class="grid grid-4 mb-6" id="stats-cards"></div>
+        <div class="grid grid-2 mb-6">
+          <div class="card"><h4 class="mb-4">👨‍⚕️ Записи по специалистам</h4><div id="stats-specialists" class="bar-chart" style="height:200px"></div></div>
+          <div class="card"><h4 class="mb-4">📚 Популярные программы</h4><div id="stats-programs" class="bar-chart" style="height:200px"></div></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card"><h4 class="mb-4">🕐 Записи по времени</h4><div id="stats-time" class="heatmap-grid"></div></div>
+          <div class="card"><h4 class="mb-4">📊 Ключевые метрики</h4><div id="stats-metrics"></div></div>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div class="screen" id="admin-settings">
+        <h2 class="mb-4">⚙️ Настройки</h2>
+        <div class="grid grid-2">
+          <div class="card">
+            <h4 class="mb-4">🎨 Тема и шрифт</h4>
+            <div class="form-group">
+              <label class="form-label">Тема</label>
+              <button class="btn btn-secondary btn-block btn-sm" onclick="toggleTheme()">🌓 Переключить тему</button>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Размер шрифта</label>
+              <div class="flex gap-2">
+                <button class="btn btn-sm btn-secondary" onclick="setFontScale(1)">Обычный</button>
+                <button class="btn btn-sm btn-secondary" onclick="setFontScale(1.2)">Крупный</button>
+                <button class="btn btn-sm btn-secondary" onclick="setFontScale(1.4)">Очень крупный</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h4 class="mb-4">👨‍⚕️ Специалисты</h4>
+            <div id="settings-specialists"></div>
+          </div>
+          <div class="card">
+            <h4 class="mb-4">🏕️ Турбазы</h4>
+            <div id="settings-locations"></div>
+          </div>
+          <div class="card">
+            <h4 class="mb-4">🔧 Система</h4>
+            <button class="btn btn-danger btn-sm btn-block mb-2" onclick="if(confirm('Сбросить все данные?')){AppState.reset();location.reload();}">🗑️ Сбросить все данные</button>
+            <div class="text-xs text-muted">ИНН: 3444267890<br>ОГРН: 1203400051234</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Admin Bottom Navigation Bar for Mobile -->
+    <nav class="bottom-nav admin-bottom-nav" id="admin-bottom-nav">
+      <a class="nav-item active" onclick="adminNav('dashboard')" data-nav="dashboard">
+        <span class="nav-icon">📊</span><span>Дашборд</span>
+      </a>
+      <a class="nav-item" onclick="adminNav('calendar')" data-nav="calendar">
+        <span class="nav-icon">📅</span><span>Календарь</span>
+      </a>
+      <a class="nav-item" onclick="adminNav('bookings')" data-nav="bookings">
+        <span class="nav-icon">📋</span><span>Записи</span>
+      </a>
+      <a class="nav-item" onclick="adminNav('admin-chat')" data-nav="admin-chat">
+        <span class="nav-icon">💬</span><span>Чат</span>
+      </a>
+      <a class="nav-item" onclick="toggleSidebar()" data-nav="more">
+        <span class="nav-icon">≡</span><span>Меню</span>
+      </a>
+    </nav>
+
+    <!-- Overlay for mobile sidebar -->
+    <div id="sidebar-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:290;display:none" onclick="toggleSidebar()"></div>
+
+    <!-- Confirm Modal -->
+    <div class="modal-overlay" id="admin-confirm-modal">
+      <div class="modal">
+        <div class="modal-header"><h3 id="admin-confirm-title">Подтверждение</h3><span class="modal-close" onclick="closeAdminModal()">✕</span></div>
+        <p id="admin-confirm-text"></p>
+        <div class="flex gap-3 mt-4">
+          <button class="btn btn-secondary" onclick="closeAdminModal()">Отмена</button>
+          <button class="btn btn-primary" id="admin-confirm-action">Подтвердить</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./js/shared.js"></script>
+  <script src="./js/admin.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('Admin PWA Service Worker registered:', reg.scope))
+          .catch((err) => console.warn('Admin PWA Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>

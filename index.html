@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Кринж & Co — Восстановление здорового сна за 3 дня без снотворных. 15 лет практики, Волгоград.">
+  <title>Кринж & Co — Здоровый сон</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./assets/logo.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="app-container" id="app">
+
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="logo">
+        <img src="assets/logo.svg" alt="Кринж & Co" width="36" height="36">
+        <span class="logo-text">Кринж & Co</span>
+      </div>
+      <div class="header-actions">
+        <div class="notification-bell" onclick="navigateTo('notifications')" aria-label="Уведомления">
+          🔔
+          <span class="badge" id="notif-badge" style="display:none">0</span>
+        </div>
+        <div class="notification-bell" onclick="navigateTo('chat')" aria-label="Чат">💬</div>
+      </div>
+    </header>
+
+    <!-- ===== SCREEN: HOME ===== -->
+    <div class="screen active" id="screen-home" data-screen="home">
+      <!-- Hero -->
+      <div class="hero">
+        <span class="hero-badge">🌙 15 лет практики • г. Волгоград</span>
+        <h1>Восстановите <span class="highlight">естественный сон</span> за 3 дня на природе или онлайн</h1>
+        <p>Без снотворных и таблеток. 12 партнёрских турбаз в Волгоградской области. Научный подход.</p>
+        <button class="btn btn-primary btn-lg" onclick="navigateTo('test')">🧪 Пройти экспресс-тест</button>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="stat-value">2000+</div><div class="stat-label">клиентов</div></div>
+          <div class="hero-stat"><div class="stat-value">97%</div><div class="stat-label">результат</div></div>
+          <div class="hero-stat"><div class="stat-value">15</div><div class="stat-label">лет опыта</div></div>
+        </div>
+      </div>
+
+      <!-- Express Test CTA -->
+      <div class="section">
+        <div class="card" style="text-align:center; border-color:var(--amber)">
+          <h3 style="color:var(--amber)">🧪 Экспресс-тест за 2 минуты</h3>
+          <p>Узнайте уровень истощения нервной системы и получите персональную рекомендацию</p>
+          <button class="btn btn-primary" onclick="navigateTo('test')">Начать тест</button>
+        </div>
+      </div>
+
+      <!-- Specialist Cards -->
+      <div class="section" id="section-specialists">
+        <h2 class="section-title"><span class="icon">👩‍⚕️</span> Наши специалисты</h2>
+        <div class="specialists-scroll-container" id="home-specialists"></div>
+      </div>
+
+      <!-- Breathing Preview -->
+      <div class="section">
+        <div class="card" style="text-align:center;cursor:pointer" onclick="navigateTo('breathing')">
+          <div style="font-size:3rem;margin-bottom:var(--space-3)">🌬️</div>
+          <h3>Тренажёр дыхания 4-7-8</h3>
+          <p>Дыхательная техника, которая помогает заснуть за 60 секунд</p>
+          <button class="btn btn-outline btn-sm">Попробовать</button>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="section">
+        <h2 class="section-title"><span class="icon">⭐</span> Отзывы наших клиентов</h2>
+        <div class="reviews-carousel" id="reviews-carousel">
+          <div class="reviews-track" id="reviews-track"></div>
+          <div class="carousel-dots" id="carousel-dots"></div>
+        </div>
+      </div>
+
+      <!-- VK Section -->
+      <div class="section">
+        <div class="vk-section">
+          <div class="vk-icon">📺</div>
+          <h3 class="mb-4">Наше сообщество ВКонтакте</h3>
+          <p>Видео, трансляции, полезные советы о здоровом сне</p>
+          <a href="https://vk.ru/club241842043" target="_blank" rel="noopener" class="vk-link-btn">🔗 Перейти в сообщество VK</a>
+        </div>
+      </div>
+
+      <!-- VK Products -->
+      <div class="section">
+        <h2 class="section-title"><span class="icon">🛍️</span> Товары для сна</h2>
+        <div class="grid grid-2" id="vk-products"></div>
+      </div>
+
+      <!-- VK Videos placeholder -->
+      <div class="section">
+        <h2 class="section-title"><span class="icon">🎬</span> Видео</h2>
+        <div class="card">
+          <p class="text-center">Смотрите наши видео о здоровом сне в <a href="https://vk.ru/club241842043" target="_blank">сообществе VK</a></p>
+          <div style="background:var(--bg-tertiary);border-radius:var(--radius-lg);height:200px;display:flex;align-items:center;justify-content:center;margin-top:var(--space-3)">
+            <span style="font-size:3rem;opacity:0.5">▶️</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Streams -->
+      <div class="section" id="section-streams">
+        <h2 class="section-title"><span class="icon">📺</span> Прямые трансляции VK</h2>
+        <div id="home-streams">
+          <div class="empty-state"><div class="empty-icon">📡</div><p>Пока нет запланированных трансляций</p></div>
+        </div>
+      </div>
+
+      <!-- Contacts -->
+      <div class="section" id="section-contacts">
+        <h2 class="section-title"><span class="icon">📍</span> Контакты</h2>
+        <div class="card">
+          <div style="display:flex;flex-direction:column;gap:var(--space-3)">
+            <div class="flex items-center gap-3"><span>📍</span><span id="contact-address"></span></div>
+            <div class="flex items-center gap-3"><span>📞</span><a id="contact-phone" href="#"></a></div>
+            <div class="flex items-center gap-3"><span>✉️</span><a id="contact-email" href="#"></a></div>
+            <div class="flex items-center gap-3"><span>🕐</span><span id="contact-hours"></span></div>
+            <div class="flex items-center gap-3"><span>🔗</span><a href="https://vk.ru/club241842043" target="_blank">Сообщество ВКонтакте</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div class="legal-notice" id="legal-notice"></div>
+        <div class="footer-links">
+          <a href="#" onclick="return false">Политика конфиденциальности</a>
+          <a href="#" onclick="return false">Оферта</a>
+        </div>
+        <div class="copyright">© 2026 Кринж & Co — Все права защищены</div>
+      </footer>
+    </div>
+
+    <!-- ===== SCREEN: EXPRESS TEST ===== -->
+    <div class="screen" id="screen-test" data-screen="test">
+      <h2 class="section-title mb-4"><span class="icon">🧪</span> Экспресс-тест</h2>
+      <p class="text-muted mb-4">Узнайте уровень истощения нервной системы — 5 вопросов, 2 минуты</p>
+      <div class="test-container">
+        <div class="test-progress" id="test-progress"></div>
+        <div id="test-content"></div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: BREATHING TRAINER ===== -->
+    <div class="screen" id="screen-breathing" data-screen="breathing">
+      <h2 class="section-title mb-4"><span class="icon">🌬️</span> Тренажёр дыхания 4-7-8</h2>
+      <p class="text-muted text-center mb-4">Эта техника активирует парасимпатическую нервную систему и помогает заснуть за 60 секунд</p>
+      <div class="breathing-container">
+        <div class="breathing-circle-wrapper">
+          <div class="breathing-ring"></div>
+          <div class="breathing-circle" id="breathing-circle">
+            <span id="breathing-countdown" style="font-size:2rem;font-weight:700;color:#0F172A"></span>
+          </div>
+        </div>
+        <div class="breathing-phase" id="breathing-phase">Нажмите «Старт»</div>
+        <div class="breathing-timer" id="breathing-timer"></div>
+        <div class="breathing-cycle" id="breathing-cycle">Цикл: 0 / 4</div>
+        <div class="breathing-controls">
+          <button class="btn btn-primary" id="breathing-start" onclick="toggleBreathing()">▶ Старт</button>
+          <button class="btn btn-secondary" onclick="resetBreathing()">↻ Сброс</button>
+        </div>
+        <div class="card mt-6" style="text-align:left">
+          <h4 class="mb-2">Как выполнять:</h4>
+          <ol style="color:var(--text-secondary);font-size:var(--font-sm);padding-left:1.2rem">
+            <li style="margin-bottom:var(--space-2)">Сядьте или лягте удобно, расслабьте плечи</li>
+            <li style="margin-bottom:var(--space-2)"><strong>Вдох через нос — 4 секунды</strong></li>
+            <li style="margin-bottom:var(--space-2)"><strong>Задержка дыхания — 7 секунд</strong></li>
+            <li style="margin-bottom:var(--space-2)"><strong>Медленный выдох через рот — 8 секунд</strong></li>
+            <li>Повторите 4 цикла</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: SLEEP DIARY ===== -->
+    <div class="screen" id="screen-diary" data-screen="diary">
+      <h2 class="section-title mb-4"><span class="icon">📓</span> Дневник гигиены сна</h2>
+      <div class="flex items-center justify-between mb-4">
+        <button class="btn btn-secondary btn-sm" id="diary-prev" onclick="changeDiaryDay(-1)">← Вчера</button>
+        <span class="font-bold" id="diary-date"></span>
+        <button class="btn btn-secondary btn-sm" id="diary-next" onclick="changeDiaryDay(1)">Завтра →</button>
+      </div>
+      <div id="diary-streak" class="mb-4" style="text-align:center"></div>
+      <div id="diary-progress" class="mb-4">
+        <div class="flex justify-between mb-2"><span class="text-sm text-muted">Выполнено</span><span class="text-sm font-bold" id="diary-percent">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="diary-fill" style="width:0%"></div></div>
+      </div>
+      <div id="diary-checklist"></div>
+      <div class="section mt-6">
+        <h3 class="section-title"><span class="icon">📊</span> Прогресс за неделю</h3>
+        <div class="weekly-chart" id="diary-chart"></div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: CATALOG ===== -->
+    <div class="screen" id="screen-catalog" data-screen="catalog">
+      <h2 class="section-title mb-4"><span class="icon">📚</span> Наши программы</h2>
+      <p class="text-muted mb-6">Выберите программу восстановления сна. Все доступны в рассрочку 0%.</p>
+      <div id="catalog-list" style="display:flex;flex-direction:column;gap:var(--space-5)"></div>
+    </div>
+
+    <!-- ===== SCREEN: BOOKING ===== -->
+    <div class="screen" id="screen-booking" data-screen="booking">
+      <h2 class="section-title mb-4"><span class="icon">📝</span> Запись на программу</h2>
+      <div class="booking-steps" id="booking-steps"></div>
+      <div id="booking-content"></div>
+    </div>
+
+    <!-- ===== SCREEN: CALENDAR ===== -->
+    <div class="screen" id="screen-calendar" data-screen="calendar">
+      <h2 class="section-title mb-4"><span class="icon">📅</span> Мой календарь</h2>
+      <div class="calendar-wrapper" id="client-calendar"></div>
+      <div class="section mt-6">
+        <h3 class="section-title"><span class="icon">📋</span> Мои записи</h3>
+        <div id="my-bookings-list"></div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: PAYMENT ===== -->
+    <div class="screen" id="screen-payment" data-screen="payment">
+      <h2 class="section-title mb-4"><span class="icon">💳</span> Оплата</h2>
+      <div id="payment-content"></div>
+    </div>
+
+    <!-- ===== SCREEN: PROFILE ===== -->
+    <div class="screen" id="screen-profile" data-screen="profile">
+      <h2 class="section-title mb-4"><span class="icon">👤</span> Профиль</h2>
+      <!-- User Info -->
+      <div class="card mb-4">
+        <h4 class="mb-4">Личные данные</h4>
+        <div class="form-group">
+          <label class="form-label">Имя</label>
+          <input type="text" class="form-input" id="profile-name" placeholder="Ваше имя">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Телефон</label>
+          <input type="tel" class="form-input" id="profile-phone" placeholder="+7 (___) ___-__-__">
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="saveProfile()">Сохранить</button>
+      </div>
+      <!-- Settings -->
+      <div class="card mb-4">
+        <h4 class="mb-4">⚙️ Настройки</h4>
+        <div class="form-group">
+          <label class="form-label">Размер шрифта</label>
+          <div class="flex gap-2">
+            <button class="btn btn-sm" onclick="setFontScale(1)" id="font-1">Aa</button>
+            <button class="btn btn-sm" onclick="setFontScale(1.2)" id="font-1.2" style="font-size:1.1rem">Aa</button>
+            <button class="btn btn-sm" onclick="setFontScale(1.4)" id="font-1.4" style="font-size:1.3rem">Aa</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Тема оформления</label>
+          <button class="btn btn-secondary btn-sm btn-block" onclick="toggleTheme()" id="theme-toggle-btn">🌓 Переключить тему</button>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Push-уведомления</label>
+          <button class="btn btn-secondary btn-sm btn-block" onclick="requestNotificationPermission()" id="notif-toggle-btn">🔔 Включить уведомления</button>
+        </div>
+      </div>
+      <!-- My Bookings -->
+      <div class="card mb-4">
+        <h4 class="mb-4">📋 Мои записи</h4>
+        <div id="profile-bookings"></div>
+      </div>
+      <!-- Test Results -->
+      <div class="card mb-4">
+        <h4 class="mb-4">🧪 Результаты тестов</h4>
+        <div id="profile-tests"></div>
+      </div>
+      <!-- Payment History -->
+      <div class="card mb-4">
+        <h4 class="mb-4">💰 История оплат</h4>
+        <div id="profile-payments"></div>
+      </div>
+      <!-- Admin Link -->
+      <div class="card" style="text-align:center;border-color:var(--amber)">
+        <p class="text-sm text-muted mb-2">Вы специалист или администратор?</p>
+        <a href="admin.html" class="btn btn-outline btn-sm">Перейти в панель управления →</a>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: CHAT ===== -->
+    <div class="screen" id="screen-chat" data-screen="chat">
+      <h2 class="section-title mb-4"><span class="icon">💬</span> Чат поддержки</h2>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+          <div class="online-dot"></div>
+          <div><strong>Поддержка Кринж & Co</strong><div class="text-xs text-muted">Обычно отвечаем за 15 мин</div></div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Напишите сообщение..." onkeypress="if(event.key==='Enter')sendChatMessage()">
+          <button class="chat-send-btn" onclick="sendChatMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: NOTIFICATIONS ===== -->
+    <div class="screen" id="screen-notifications" data-screen="notifications">
+      <h2 class="section-title mb-4"><span class="icon">🔔</span> Уведомления</h2>
+      <div id="notifications-list"></div>
+    </div>
+
+    <!-- ===== SCREEN: FEEDBACK ===== -->
+    <div class="screen" id="screen-feedback" data-screen="feedback">
+      <h2 class="section-title mb-4"><span class="icon">📝</span> Обратная связь</h2>
+      <div class="card">
+        <h4 class="mb-4">Оцените вашу сессию</h4>
+        <div class="form-group">
+          <label class="form-label">Выберите сессию</label>
+          <select class="form-select" id="feedback-session"></select>
+        </div>
+        <div class="form-group text-center">
+          <label class="form-label">Ваша оценка</label>
+          <div class="star-input" id="feedback-stars">
+            <span class="star-btn" data-rating="1" onclick="setFeedbackRating(1)">☆</span>
+            <span class="star-btn" data-rating="2" onclick="setFeedbackRating(2)">☆</span>
+            <span class="star-btn" data-rating="3" onclick="setFeedbackRating(3)">☆</span>
+            <span class="star-btn" data-rating="4" onclick="setFeedbackRating(4)">☆</span>
+            <span class="star-btn" data-rating="5" onclick="setFeedbackRating(5)">☆</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ваши впечатления</label>
+          <textarea class="form-textarea" id="feedback-text" placeholder="Расскажите о вашем опыте..."></textarea>
+        </div>
+        <div class="checkbox-group mb-4">
+          <input type="checkbox" id="feedback-anon">
+          <label for="feedback-anon">Оставить отзыв анонимно</label>
+        </div>
+        <button class="btn btn-primary btn-block" onclick="submitFeedbackForm()">Отправить отзыв</button>
+      </div>
+    </div>
+
+    <!-- ===== SCREEN: STREAMS ===== -->
+    <div class="screen" id="screen-streams" data-screen="streams">
+      <h2 class="section-title mb-4"><span class="icon">📺</span> VK Трансляции</h2>
+      <div id="streams-list"></div>
+    </div>
+
+    <!-- ===== SCREEN: CONTACTS ===== -->
+    <div class="screen" id="screen-contacts" data-screen="contacts">
+      <h2 class="section-title mb-4"><span class="icon">📍</span> Контакты</h2>
+      <div class="card mb-4">
+        <div style="display:flex;flex-direction:column;gap:var(--space-4)">
+          <div class="flex items-center gap-3"><span style="font-size:1.3rem">📍</span><div><div class="text-sm text-muted">Адрес</div><div class="font-medium" id="contacts-address"></div></div></div>
+          <div class="flex items-center gap-3"><span style="font-size:1.3rem">📞</span><div><div class="text-sm text-muted">Телефон</div><a class="font-medium" id="contacts-phone" href="#"></a></div></div>
+          <div class="flex items-center gap-3"><span style="font-size:1.3rem">✉️</span><div><div class="text-sm text-muted">Email</div><a class="font-medium" id="contacts-email" href="#"></a></div></div>
+          <div class="flex items-center gap-3"><span style="font-size:1.3rem">🕐</span><div><div class="text-sm text-muted">Часы работы</div><div class="font-medium" id="contacts-hours"></div></div></div>
+        </div>
+      </div>
+      <div class="vk-section">
+        <div class="vk-icon">📱</div>
+        <h4 class="mb-2">ВКонтакте</h4>
+        <a href="https://vk.ru/club241842043" target="_blank" class="vk-link-btn">🔗 Наше сообщество VK</a>
+      </div>
+      <div class="card mt-4" style="background:var(--bg-tertiary);height:200px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-xl)">
+        <span class="text-muted">🗺️ Карта (Волгоград, ул. Мира, 15)</span>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <a class="nav-item active" onclick="navigateTo('home')" data-nav="home">
+        <span class="nav-icon">🏠</span><span>Главная</span>
+      </a>
+      <a class="nav-item" onclick="navigateTo('catalog')" data-nav="catalog">
+        <span class="nav-icon">📚</span><span>Программы</span>
+      </a>
+      <a class="nav-item" onclick="navigateTo('calendar')" data-nav="calendar">
+        <span class="nav-icon">📅</span><span>Календарь</span>
+      </a>
+      <a class="nav-item" onclick="navigateTo('profile')" data-nav="profile">
+        <span class="nav-icon">👤</span><span>Профиль</span>
+      </a>
+      <a class="nav-item" onclick="navigateTo('more')" data-nav="more">
+        <span class="nav-icon">≡</span><span>Ещё</span>
+      </a>
+    </nav>
+
+    <!-- More Menu (overlay) -->
+    <div class="modal-overlay" id="more-menu">
+      <div class="modal" style="max-width:320px">
+        <div class="modal-header"><h3>Меню</h3><span class="modal-close" onclick="closeMoreMenu()">✕</span></div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2)">
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('test');closeMoreMenu()">🧪 Экспресс-тест</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('breathing');closeMoreMenu()">🌬️ Тренажёр дыхания</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('diary');closeMoreMenu()">📓 Дневник сна</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('booking');closeMoreMenu()">📝 Запись</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('feedback');closeMoreMenu()">📝 Обратная связь</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('streams');closeMoreMenu()">📺 Трансляции</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('contacts');closeMoreMenu()">📍 Контакты</button>
+          <button class="btn btn-secondary btn-block" onclick="navigateTo('chat');closeMoreMenu()">💬 Чат поддержки</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div class="modal-overlay" id="confirm-modal">
+      <div class="modal">
+        <div class="modal-header"><h3 id="confirm-title">Подтверждение</h3><span class="modal-close" onclick="closeModal('confirm-modal')">✕</span></div>
+        <p id="confirm-text"></p>
+        <div class="flex gap-3 mt-4">
+          <button class="btn btn-secondary" onclick="closeModal('confirm-modal')">Отмена</button>
+          <button class="btn btn-primary" id="confirm-action">Подтвердить</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./js/shared.js"></script>
+  <script src="./js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('PWA Service Worker registered:', reg.scope))
+          .catch((err) => console.warn('PWA Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
